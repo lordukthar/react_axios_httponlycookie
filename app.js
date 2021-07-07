@@ -67,8 +67,10 @@ var express = require("express");
 
 var usersRouter = require("./users");
 
-var app = express();
+const cookieParser = require("cookie-parser");
 
+var app = express();
+app.use(cookieParser("your-secret"));
 var cors = require("cors");
 
 const corsOptions = {
@@ -90,7 +92,7 @@ app.set("trust proxy", 1); // trust first proxy
 
 app.use(
   session({
-    secret: "I am stuck, help me please!",
+    secret: "MySecret",
     name: "Jonas",
     saveUninitialized: true,
     resave: false,
@@ -101,10 +103,12 @@ app.use("/users", usersRouter);
 
 app.get("/", function (req, res, next) {
   // Update views
+  console.log("GET");
   req.session.views = (req.session.views || 0) + 1;
   req.session.jsessonid = (req.session.jsessonid || 0) + 1;
 
   // Write response
+  res.cookie("Anders", "value", { signed: true });
   res.end(req.session.views + " views");
 });
 
