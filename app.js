@@ -68,9 +68,12 @@ var express = require("express");
 var usersRouter = require("./users");
 
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 
 var app = express();
 app.use(cookieParser("your-secret"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 var cors = require("cors");
 
 const corsOptions = {
@@ -100,6 +103,12 @@ app.use(
 );
 
 app.use("/users", usersRouter);
+
+app.post("/user", (req, res) => {
+  var u = req.body;
+  console.log(u);
+  res.sendStatus(200);
+});
 
 app.get("/", function (req, res, next) {
   // Update views
