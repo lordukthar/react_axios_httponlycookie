@@ -72,6 +72,7 @@ const bodyParser = require("body-parser");
 
 var app = express();
 app.use(cookieParser("your-secret"));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var cors = require("cors");
@@ -105,6 +106,10 @@ app.use(
 app.use("/users", usersRouter);
 
 app.post("/user", (req, res) => {
+  var cookie = req.headers.cookie;
+  console.log(cookie);
+
+  res.cookie("cookieName", "cookieValue");
   var u = req.body;
   console.log(u);
   res.sendStatus(200);
