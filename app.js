@@ -106,8 +106,12 @@ app.use(
 app.use("/users", usersRouter);
 
 app.post("/user", (req, res) => {
-  var cookie = req.headers.cookie;
-  console.log(cookie);
+  var cookies = req.headers.cookie;
+  console.log("FOO " + cookies);
+  let result = cookies.indexOf("Jonas=");
+  let sec = cookies.substring(result+6);
+
+  console.log("FOO " + sec);
 
   res.cookie("cookieName", "cookieValue");
   var u = req.body;
